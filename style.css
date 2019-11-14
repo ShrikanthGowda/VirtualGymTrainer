@@ -85,7 +85,7 @@ canvas{
     z-index: 99;
 }
 video{
-    transform: scaleX(-1);
+    
 }
 .ml-pane .marker{
     position: absolute;

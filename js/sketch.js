@@ -77,7 +77,7 @@ function setup() {
     capture = createCapture(options);
     capture.size(1200, 900)
     capture.parent('ml-pane');
-    poseNet = ml5.poseNet(capture, { flipHorizontal: true, detectionType: 'single' });
+    poseNet = ml5.poseNet(capture, { flipHorizontal: false, detectionType: 'single' });
     poseNet.on('pose', analysePoses);
     poseNet.video = null;
     poseNet.net = null;
@@ -119,7 +119,8 @@ function __drawMarkPositions() {
     __fghtyui.forEach(p => {
         if (points[p]) {
             const confidence = points[p].confidence + '';
-            text(confidence.substr(0, 5), points[p].x, points[p].y);
+            const textStr = p + confidence.substr(0, 5);
+            text(textStr, points[p].x, points[p].y);
         }
     });
 }
