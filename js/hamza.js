@@ -2,6 +2,8 @@ let count = 0;
 let counted = false;
 let spokenLSL = false;
 let spokenLSM = false;
+let muteInstructions = true;
+
 
 function countReps() {
     angle = find_angle(points["leftWrist"], points["leftShoulder"], points["leftElbow"]);
@@ -39,8 +41,8 @@ function checkIfLegStanceIsLess() {
 
     if (legStance < 0.8 * shoulderWidth && spokenLSL == false) {
         spokenLSL = true
-        if(!muteInstructions){
-        speak("Increase leg stance")
+        if (!muteInstructions) {
+            speak("Increase leg stance")
         }
     }
     if (legStance >= 0.9 * shoulderWidth) {
@@ -65,8 +67,8 @@ function checkIfLegStanceIsMore() {
 
     if (legStance > 1.4 * shoulderWidth && spokenLSM == false) {
         spokenLSM = true
-        if(!muteInstructions){
-        speak("Decrease your leg stance")
+        if (!muteInstructions) {
+            speak("Decrease your leg stance")
         }
     }
     if (legStance <= 1.3 * shoulderWidth) {
@@ -91,3 +93,14 @@ function find_angle(p0, p1, c) {
 function speak(text) {
     speechObj.speak(text)
 }
+
+document.addEventListener('keypress', e => {
+    if (e.keyCode === 77) {
+        muteInstructions = !muteInstructions;
+        if (muteInstructions) {
+            muteIndicator.style.background = 'red';
+        } else {
+            muteIndicator.style.background = 'green';
+        }
+    }
+}, false)

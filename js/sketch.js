@@ -4,7 +4,6 @@ let printPose = false;
 let points = {};
 let __fghtyui = [];
 let doWork = false;
-let muteInstructions = true;
 const handlerInProgress = {};
 
 const statusIndicator = document.getElementById('status');
@@ -39,16 +38,7 @@ document.addEventListener('keypress', async e => {
     }
 }, false)
 
-document.addEventListener('keypress', e => {
-    if (e.keyCode === 77) {
-        muteInstructions = !muteInstructions;
-        if (muteInstructions) {
-            muteIndicator.style.background = 'red';
-        } else {
-            muteIndicator.style.background = 'green';
-        }
-    }
-}, false)
+
 
 function setup() {
     speechObj = new p5.Speech();
