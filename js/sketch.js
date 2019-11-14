@@ -1,4 +1,4 @@
-let canvas, capture, speechObj;
+let canvas, capture, speechObj, poseNet;
 let debug = true;
 let printPose = false;
 let points = {};
@@ -7,12 +7,17 @@ let doWork = false;
 
 const statusIndicator = document.getElementById('status');
 
-document.addEventListener('keypress', e => {
+document.addEventListener('keypress', async e => {
     if (e.keyCode === 32) {
         doWork = !doWork;
         if (doWork) {
+            statusIndicator.style.background = 'yellow';
+            poseNet.video = capture.elt;
+            await poseNet.load();
             statusIndicator.style.background = 'green';
         } else {
+            poseNet.video = null;
+            poseNet.net = null;
             statusIndicator.style.background = 'red';
         }
     }
@@ -22,17 +27,20 @@ function setup() {
     speechObj = new p5.Speech();
     canvas = createCanvas(1200, 900);
     canvas.parent('ml-pane');
-    capture = createCapture(VIDEO);
+    const options = { video: { maxFrameRate: 5 } }
+    capture = createCapture(options);
     capture.size(1200, 900)
-    poseNet = ml5.poseNet(capture);
-    poseNet.on('pose', gotPoses);
     capture.parent('ml-pane');
+    poseNet = ml5.poseNet(capture, { flipHorizontal: true, detectionType: 'single' });
+    poseNet.on('pose', analysePoses);
+    poseNet.video = null;
+    poseNet.net = null;
 }
 
-function gotPoses(poses) {
+function analysePoses(poses) {
     if (poses.length > 0) {
         if (printPose) {
-            console.log(poses[0].pose);
+            console.log(poses);
             printPose = false;
         }
         const { keypoints, score, ...positions } = poses[0].pose;
