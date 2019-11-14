@@ -4,8 +4,11 @@ let printPose = false;
 let points = {};
 let __fghtyui = [];
 let doWork = false;
+let muteInstructions = true;
 
 const statusIndicator = document.getElementById('status');
+const muteIndicator = document.getElementById('muteToggle');
+
 
 document.addEventListener('keypress', async e => {
     if (e.keyCode === 32) {
@@ -19,6 +22,17 @@ document.addEventListener('keypress', async e => {
             poseNet.video = null;
             poseNet.net = null;
             statusIndicator.style.background = 'red';
+        }
+    }
+}, false)
+
+document.addEventListener('keypress', e => {
+    if (e.keyCode === 77) {
+        muteInstructions = !muteInstructions;
+        if (muteInstructions) {
+            muteIndicator.style.background = 'red';
+        } else {
+            muteIndicator.style.background = 'green';
         }
     }
 }, false)

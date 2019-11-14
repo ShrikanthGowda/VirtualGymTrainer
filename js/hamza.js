@@ -39,7 +39,9 @@ function checkIfLegStanceIsLess() {
 
     if (legStance < 0.8 * shoulderWidth && spokenLSL == false) {
         spokenLSL = true
+        if(!muteInstructions){
         speak("Increase leg stance")
+        }
     }
     if (legStance >= 0.9 * shoulderWidth) {
         spokenLSL = false
@@ -63,7 +65,9 @@ function checkIfLegStanceIsMore() {
 
     if (legStance > 1.4 * shoulderWidth && spokenLSM == false) {
         spokenLSM = true
+        if(!muteInstructions){
         speak("Decrease your leg stance")
+        }
     }
     if (legStance <= 1.3 * shoulderWidth) {
         spokenLSM = false
