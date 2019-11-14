@@ -6,6 +6,13 @@ let __fghtyui = [];
 let doWork = false;
 const handlerInProgress = {};
 
+
+let speechOutputObj;
+let interimResults = false;
+let continuous = true;
+
+
+
 const statusIndicator = document.getElementById('status');
 const muteIndicator = document.getElementById('muteToggle');
 
@@ -41,6 +48,7 @@ document.addEventListener('keypress', async e => {
 
 
 function setup() {
+      console.log('AFTER craetion speechRec obj')
     speechObj = new p5.Speech();
     canvas = createCanvas(1200, 900);
     canvas.parent('ml-pane');
@@ -52,7 +60,37 @@ function setup() {
     poseNet.on('pose', analysePoses);
     poseNet.video = null;
     poseNet.net = null;
+
+
+  console.log('AFTER craetion speechRec obj')
+
+     // var speechOutputObj = new p5.Speech();
+  speechOutputObj = new p5.SpeechRec();
+  speechOutputObj.onResult = gotSpeech;
+  console.log('AFTER craetion speechRec obj')
+   
+    // let interimResults = false;
+    speechOutputObj.start(continuous, interimResults);
+
+     
+
+
 }
+
+
+
+function gotSpeech() {
+      console.log(speechOutputObj.resultString);
+      const speech = speechOutputObj.resultString;
+       if(speech.includes('start') || speech.includes('shoulder')  ||  speech.includes('press')&& speech.confidence>0.60){
+      
+        console.log("Starting our program")
+
+     }
+     else if(speech.includes('stop'))
+       console.log('stopping program')
+    }
+
 
 function analysePoses(poses) {
     if (poses.length > 0) {
