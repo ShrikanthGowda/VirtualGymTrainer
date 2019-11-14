@@ -5,6 +5,7 @@ let points = {};
 let __fghtyui = [];
 let doWork = false;
 const handlerInProgress = {};
+let drawSkeleton = false;
 
 
 let speechOutputObj;
@@ -108,12 +109,14 @@ function analysePoses(poses) {
         }
     }
 }
+
 function draw() {
     canvas.clear();
     if (!debug) {
         return;
     }
     __drawMarkPositions();
+    __drawSkeleton();
 }
 
 function __drawMarkPositions() {
@@ -127,5 +130,29 @@ function mark(part) {
 function clearMarks() {
     __fghtyui = [];
 }
+function __drawSkeleton() {
+    if (!drawSkeleton) {
+        return;
+    }
+    strokeWeight(2);
+    stroke(255, 0, 0);
+    drawLine(LEFTEYE, RIGHTEYE);
+    drawLine(LEFTEYE, NOSE);
+    drawLine(RIGHTEYE, NOSE);
 
+    drawLine(LEFTSHOULDER, RIGHTSHOULDER);
 
+    drawLine(LEFTSHOULDER, LEFTELBOW);
+    drawLine(LEFTELBOW, LEFTWRIST);
+
+    drawLine(RIGHTSHOULDER, RIGHTELBOW);
+    drawLine(RIGHTELBOW, RIGHTWRIST);
+
+    drawLine(LEFTHIP, RIGHTHIP);
+
+    drawLine(LEFTHIP, LEFTSHOULDER);
+    drawLine(RIGHTSHOULDER, RIGHTHIP);
+}
+function drawLine(parta, partb) {
+    line(points[parta].x, points[parta].y, points[partb].x, points[partb].y);
+}
