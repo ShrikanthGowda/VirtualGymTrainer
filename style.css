@@ -97,7 +97,7 @@ video{
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    z-index: 900;
+    z-index: 200;
     background: red;
     top: 10px;
     right: 10px;
@@ -105,11 +105,11 @@ video{
 
 .ml-pane .muteToggle{
     position: absolute;
-    height: 20px;
+    height: 45px;
     width: 20px;
-    border-radius: 50%;
+    border-radius: 16%;
     z-index: 900;
     background: red;
-    top: 50px;
-    right: 50px;
+    right: 9px;
+    top: 59px;
 }

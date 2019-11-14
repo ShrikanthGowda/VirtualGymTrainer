@@ -5,24 +5,37 @@ let points = {};
 let __fghtyui = [];
 let doWork = false;
 let muteInstructions = true;
+const handlerInProgress = {};
 
 const statusIndicator = document.getElementById('status');
 const muteIndicator = document.getElementById('muteToggle');
 
+const wait = async (second) => new Promise(resolve => setTimeout(resolve, second * 1000));
 
 document.addEventListener('keypress', async e => {
+    if (handlerInProgress.spaceKey) {
+        return;
+    }
     if (e.keyCode === 32) {
+        handlerInProgress.spaceKey = true;
         doWork = !doWork;
         if (doWork) {
             statusIndicator.style.background = 'yellow';
+            speechObj.speak('Starting pose estimation. Please wait');
+            await wait(2);
             poseNet.video = capture.elt;
             await poseNet.load();
             statusIndicator.style.background = 'green';
+            speechObj.speak('Pose Estimate started.');
+            await wait(2);
         } else {
             poseNet.video = null;
             poseNet.net = null;
             statusIndicator.style.background = 'red';
+            speechObj.speak('Pose Estimate stopped.');
+            await wait(2);
         }
+        handlerInProgress.spaceKey = false;
     }
 }, false)
 
