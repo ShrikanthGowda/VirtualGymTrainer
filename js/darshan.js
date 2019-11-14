@@ -5,6 +5,7 @@ let continuous = true;
 
 function gotSpeech() {
     const speech = speechOutputObj.resultString;
+    console.log("Detected speech:", speech);
     if (speech.includes('start') || speech.includes('shoulder') || speech.includes('press') && speech.confidence > 0.60) {
         startProgram();
     }

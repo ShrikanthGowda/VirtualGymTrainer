@@ -3,11 +3,6 @@ let debug = true;
 let printPose = false;
 let points = {};
 let __fghtyui = [
-    NOSE,
-    LEFTEYE,
-    RIGHTEYE,
-    LEFTEAR,
-    RIGHTEAR,
     LEFTSHOULDER,
     RIGHTSHOULDER,
     LEFTELBOW,
@@ -122,7 +117,7 @@ function __drawMarkPositions() {
     fill(255, 0, 0);
     textSize(32);
     __fghtyui.forEach(p => {
-        if (points[p] && points[p].confidence >= 0.1) {
+        if (points[p]) {
             const confidence = points[p].confidence + '';
             text(confidence.substr(0, 5), points[p].x, points[p].y);
         }
