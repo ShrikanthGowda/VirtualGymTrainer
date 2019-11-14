@@ -8,48 +8,55 @@ const handlerInProgress = {};
 let drawSkeleton = false;
 
 
-let speechOutputObj;
-let interimResults = false;
-let continuous = true;
-
-
 
 const statusIndicator = document.getElementById('status');
 const muteIndicator = document.getElementById('muteToggle');
 
 const wait = async (second) => new Promise(resolve => setTimeout(resolve, second * 1000));
 
-document.addEventListener('keypress', async e => {
-    if (handlerInProgress.spaceKey) {
+const startProgram = async () => {
+    if (handlerInProgress.startStop || doWork) {
         return;
     }
+    handlerInProgress.startStop = true;
+    doWork = true;
+    statusIndicator.style.background = 'yellow';
+    speechObj.speak('Starting pose estimation. Please wait');
+    await wait(2);
+    poseNet.video = capture.elt;
+    await poseNet.load();
+    statusIndicator.style.background = 'green';
+    speechObj.speak('Pose Estimate started.');
+    await wait(2);
+    handlerInProgress.startStop = false;
+}
+const stopProgram = async () => {
+    if (handlerInProgress.startStop || !doWork) {
+        return;
+    }
+    handlerInProgress.startStop = true;
+    doWork = false;
+    poseNet.video = null;
+    poseNet.net = null;
+    statusIndicator.style.background = 'red';
+    speechObj.speak('Pose Estimate stopped.');
+    await wait(2);
+    handlerInProgress.startStop = false;
+}
+
+document.addEventListener('keypress', async e => {
     if (e.keyCode === 32) {
-        handlerInProgress.spaceKey = true;
-        doWork = !doWork;
         if (doWork) {
-            statusIndicator.style.background = 'yellow';
-            speechObj.speak('Starting pose estimation. Please wait');
-            await wait(2);
-            poseNet.video = capture.elt;
-            await poseNet.load();
-            statusIndicator.style.background = 'green';
-            speechObj.speak('Pose Estimate started.');
-            await wait(2);
+            stopProgram();
         } else {
-            poseNet.video = null;
-            poseNet.net = null;
-            statusIndicator.style.background = 'red';
-            speechObj.speak('Pose Estimate stopped.');
-            await wait(2);
+            startProgram();
         }
-        handlerInProgress.spaceKey = false;
     }
 }, false)
 
 
 
 function setup() {
-      console.log('AFTER craetion speechRec obj')
     speechObj = new p5.Speech();
     canvas = createCanvas(1200, 900);
     canvas.parent('ml-pane');
@@ -61,36 +68,10 @@ function setup() {
     poseNet.on('pose', analysePoses);
     poseNet.video = null;
     poseNet.net = null;
-
-
-  console.log('AFTER craetion speechRec obj')
-
-     // var speechOutputObj = new p5.Speech();
-  speechOutputObj = new p5.SpeechRec();
-  speechOutputObj.onResult = gotSpeech;
-  console.log('AFTER craetion speechRec obj')
-   
-    // let interimResults = false;
+    speechOutputObj = new p5.SpeechRec();
+    speechOutputObj.onResult = gotSpeech;
     speechOutputObj.start(continuous, interimResults);
-
-     
-
-
 }
-
-
-
-function gotSpeech() {
-      console.log(speechOutputObj.resultString);
-      const speech = speechOutputObj.resultString;
-       if(speech.includes('start') || speech.includes('shoulder')  ||  speech.includes('press')&& speech.confidence>0.60){
-      
-        console.log("Starting our program")
-
-     }
-     else if(speech.includes('stop'))
-       console.log('stopping program')
-    }
 
 
 function analysePoses(poses) {
