@@ -2,7 +2,25 @@ let canvas, capture, speechObj, poseNet;
 let debug = true;
 let printPose = false;
 let points = {};
-let __fghtyui = [];
+let __fghtyui = [
+    NOSE,
+    LEFTEYE,
+    RIGHTEYE,
+    LEFTEAR,
+    RIGHTEAR,
+    LEFTSHOULDER,
+    RIGHTSHOULDER,
+    LEFTELBOW,
+    RIGHTELBOW,
+    LEFTWRIST,
+    LEFTHIP,
+    RIGHTWRIST,
+    RIGHTHIP,
+    LEFTKNEE,
+    RIGHTKNEE,
+    LEFTANKLE,
+    RIGHTANKLE
+];
 let doWork = false;
 const handlerInProgress = {};
 let drawSkeleton = false;
@@ -102,7 +120,13 @@ function draw() {
 
 function __drawMarkPositions() {
     fill(255, 0, 0);
-    __fghtyui.forEach(p => points[p] && ellipse(points[p].x, points[p].y, 10));
+    textSize(32);
+    __fghtyui.forEach(p => {
+        if (points[p] && points[p].confidence >= 0.1) {
+            const confidence = points[p].confidence + '';
+            text(confidence.substr(0, 5), points[p].x, points[p].y);
+        }
+    });
 }
 
 function mark(part) {
@@ -135,5 +159,9 @@ function __drawSkeleton() {
     drawLine(RIGHTSHOULDER, RIGHTHIP);
 }
 function drawLine(parta, partb) {
-    line(points[parta].x, points[parta].y, points[partb].x, points[partb].y);
+    const partAPoint = points[parta];
+    const partBPoint = points[partb];
+    if (partAPoint.confidence >= 0.5 && partBPoint.confidence >= 0.5) {
+        line(points[parta].x, points[parta].y, points[partb].x, points[partb].y);
+    }
 }
