@@ -23,6 +23,8 @@ const startProgram = async () => {
     await poseNet.load();
     statusIndicator.style.background = 'green';
     count = 0;
+    updateCount(0);
+    startTimer();
     speechObj.speak('Pose Estimate started.');
     await wait(2);
     handlerInProgress.startStop = false;
@@ -36,6 +38,7 @@ const stopProgram = async () => {
     poseNet.video = null;
     poseNet.net = null;
     statusIndicator.style.background = 'red';
+    stopTimer();
     speechObj.speak('Pose Estimate stopped.');
     await wait(2);
     handlerInProgress.startStop = false;
@@ -66,9 +69,9 @@ function setup() {
     poseNet.on('pose', analysePoses);
     poseNet.video = null;
     poseNet.net = null;
-    speechOutputObj = new p5.SpeechRec();
-    speechOutputObj.onResult = gotSpeech;
-    speechOutputObj.start(continuous, interimResults);
+    //speechOutputObj = new p5.SpeechRec();
+    //speechOutputObj.onResult = gotSpeech;
+    //speechOutputObj.start(continuous, interimResults);
 }
 
 function windowResized() {
