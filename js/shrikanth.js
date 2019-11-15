@@ -34,8 +34,9 @@ function validateWristShoulderPosition(leftWristPoints, leftElbowPoints, leftSho
     && leftElbowPoints.y < leftShoulderPoints.y) {
     if (makeNoiseForFarWrist) {
 
+      showError(901, "Wrist is falling away");
       if(!muteInstructions){
-        speechObj.speak('wrist is far from shoulder');
+        speechObj.speak('Wrist is falling away');
       }
       makeNoiseForFarWrist = false;
     }
@@ -53,8 +54,9 @@ function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints,
   if (angleDeg < 60 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 ) {
     if (makeNoiseForWristStraight) {
 
+      showError(903, "Left your hands up");
       if(!muteInstructions){
-        speechObj.speak('Wrist straight');
+        speechObj.speak('Left your hands up');
       }
       makeNoiseForWristStraight = false;
     }
