@@ -149,10 +149,11 @@ function checkElbowBelowShoulder(){
         //   console.log(angle)
         if(!muteInstructions){
       speak("Lift your elbow up");
-      showError(830, "Lift your elbow up.")
+      
 
       spokenElbowUP = true
         }
+        showError(830, "Lift your elbow up.")
     }
     if(angle > 80){
       spokenElbowUP = false
