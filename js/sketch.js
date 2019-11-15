@@ -18,14 +18,15 @@ const startProgram = async () => {
     hideSummary();
     doWork = true;
     statusIndicator.style.background = 'yellow';
+    count = 0;
+    updateCount(0);
+    startTimer();
     speechObj.speak('Starting pose estimation. Please wait');
     await wait(2);
     poseNet.video = capture.elt;
     await poseNet.load();
     statusIndicator.style.background = 'green';
-    count = 0;
-    updateCount(0);
-    startTimer();
+
     speechObj.speak('Pose Estimate started.');
     await wait(2);
     handlerInProgress.startStop = false;

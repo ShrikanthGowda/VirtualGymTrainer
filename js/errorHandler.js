@@ -1,7 +1,7 @@
 const errorTexts = {
 
 }
-const stayTime = 3000;
+const stayTime = 4000;
 const errorContainer = document.getElementById('errorTextContainer');
 function showError(code, message) {
     const prvError = errorTexts[code];
