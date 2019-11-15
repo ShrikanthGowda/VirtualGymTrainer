@@ -88,7 +88,7 @@ video{
     flex:1;
 }
 .errorTextContainer h3{
-    font-weight: 300;
+    font-weight: 400;
     font-size: 2rem;
     margin: 24px 0;
     border-left: 5px solid red;
@@ -127,7 +127,6 @@ video{
     bottom: 0;
     z-index: 200;
     display: none;
-    
 }
 .summaryReport .backdrop{
     position: absolute;
@@ -136,7 +135,7 @@ video{
     right: 0;
     bottom: 0;
     background: #000;
-    opacity: 0.8;
+    opacity: 0.85;
     z-index: 99;
 }
 .summaryBody{
@@ -146,9 +145,27 @@ video{
     transform: translate(-50%,-50%);
     height: 400px;
     width: 600px;
-    background: #fff;
     border-radius: 5px;
     z-index: 100;
     padding: 10px;
     text-align: center;
+}
+.summaryBody h1{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    font-weight: 350;
+    color: #aaa;
+}
+.summaryBody h2{
+    font-size: 2rem;
+    margin-bottom: 0rem;
+    font-weight: 350;
+    color: #fff;
+}
+
+.summaryBody h3{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: orange;
 }

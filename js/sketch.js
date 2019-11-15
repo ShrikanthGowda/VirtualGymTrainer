@@ -15,6 +15,7 @@ const startProgram = async () => {
         return;
     }
     handlerInProgress.startStop = true;
+    hideSummary();
     doWork = true;
     statusIndicator.style.background = 'yellow';
     speechObj.speak('Starting pose estimation. Please wait');
@@ -40,6 +41,7 @@ const stopProgram = async () => {
     statusIndicator.style.background = 'red';
     stopTimer();
     speechObj.speak('Pose Estimate stopped.');
+    showSummary();
     await wait(2);
     handlerInProgress.startStop = false;
 }

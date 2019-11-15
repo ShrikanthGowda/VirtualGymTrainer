@@ -1,8 +1,10 @@
 let updateInterval;
 let elapsed = 0;
+
 const timerContainer = document.getElementById('timerContainer');
 
 function startTimer() {
+    elapsed = 0;
     if (updateInterval) {
         clearInterval(updateInterval);
         timerContainer.innerText = "00 : 00";
