@@ -51,7 +51,7 @@ function validateWristShoulderPosition(leftWristPoints, leftElbowPoints, leftSho
 function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints) {
 
   // console.log(angleDeg + ":" + distanceElbowShoulder + ":" + (leftElbowPoints.y < leftShoulderPoints.y));
-  if (angleDeg < 60 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 ) {
+  if (angleDeg < 50 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 ) {
     if (makeNoiseForWristStraight) {
 
       showError(903, "Lift your hands up");
@@ -61,7 +61,7 @@ function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints,
       makeNoiseForWristStraight = false;
     }
   }
-  else if (!(angleDeg < 60 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 )) {
+  else if (!(angleDeg < 50 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 )) {
     makeNoiseForWristStraight = true;
   }
 }
