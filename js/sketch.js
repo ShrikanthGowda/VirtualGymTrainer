@@ -3,6 +3,10 @@ let points = {};
 let doWork = false;
 const handlerInProgress = {};
 let frameSize = 300
+let mistakeCount = 0;
+let mistakeDetails = {
+
+};
 
 const mlPaneElement = document.getElementById('ml-pane');
 const statusIndicator = document.getElementById('status');
@@ -20,6 +24,8 @@ const startProgram = async () => {
     statusIndicator.style.background = 'yellow';
     count = 0;
     updateCount(0);
+    mistakeCount = 0;
+    mistakeDetails = {};
     speechObj.speak('Starting pose estimation. Please wait');
     await wait(2);
     poseNet.video = capture.elt;
