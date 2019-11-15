@@ -85,8 +85,9 @@ function analysePoses(poses) {
         if (doWork) {
             countReps();
             checkIfLegStanceIsLess();
-            checkIfLegStanceIsMore();
+            //checkIfLegStanceIsMore();
             handPositionValidations();
+            checkElbowBelowShoulder();
         }
     }
 }
