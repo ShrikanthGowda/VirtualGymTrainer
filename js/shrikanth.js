@@ -54,9 +54,9 @@ function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints,
   if (angleDeg < 60 && distanceElbowShoulder > -15 && distanceElbowShoulder <15 ) {
     if (makeNoiseForWristStraight) {
 
-      showError(903, "Left your hands up");
+      showError(903, "Lift your hands up");
       if(!muteInstructions){
-        speechObj.speak('Left your hands up');
+        speechObj.speak('Lift your hands up');
       }
       makeNoiseForWristStraight = false;
     }
