@@ -7,38 +7,30 @@ function handPositionValidations() {
   let leftWristPoints = points["leftWrist"];
   let leftElbowPoints = points["leftElbow"];
   let leftShoulderPoints = points["leftShoulder"];
-  let rightWristPoints = points["rightWrist"];
-  let rightElbowPoints = points["rightElbow"];
-  let rightShoulderPoints = points["rightShoulder"];
 
-  if (leftWristPoints.confidence > 0.8 && leftElbowPoints.confidence > 0.8) {
+  if (leftWristPoints.confidence > 0.5 && leftElbowPoints.confidence > 0.7) {
 
-    validateWristShoulderPosition(leftWristPoints, leftElbowPoints,
-      rightWristPoints, rightElbowPoints);
+    validateWristShoulderPosition(leftWristPoints, leftElbowPoints, leftShoulderPoints);
   }
 
-  //console.log(leftWristPoints.confidence + ":" + leftElbowPoints.confidence + 
-  //":" + leftShoulderPoints.confidence);
-
-  if (leftWristPoints.confidence > 0.8 && leftElbowPoints.confidence > 0.8
-    && leftShoulderPoints.confidence > 0.8) {
+  if (leftWristPoints.confidence > 0.5 && leftElbowPoints.confidence > 0.7
+    && leftShoulderPoints.confidence > 0.7) {
 
     let angleDeg = find_angle(leftShoulderPoints, leftWristPoints, leftElbowPoints);
     let distanceElbowShoulder = leftElbowPoints.y - leftShoulderPoints.y;
-    validateWristPosition(angleDeg, distanceElbowShoulder);
-    validateElbowPosition(angleDeg, distanceElbowShoulder);
+     //validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints);
+    //validateElbowPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints);
   }
 
 }
 
 
-function validateWristShoulderPosition(leftWristPoints, leftElbowPoints,
-  rightWristPoints, rightElbowPoints) {
+function validateWristShoulderPosition(leftWristPoints, leftElbowPoints, leftShoulderPoints) {
 
   let distanceLeftWristElbow = leftWristPoints.x - leftElbowPoints.x;
-  let distanceRightWristElbow = rightElbowPoints.x - rightWristPoints.x;
 
-  if (leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 13) {
+  if (leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 13 
+    && leftElbowPoints.y < leftShoulderPoints.y) {
     if (makeNoiseForFarWrist) {
       if(!muteInstructions){
         speechObj.speak('wrist is far from shoulder');
@@ -46,15 +38,17 @@ function validateWristShoulderPosition(leftWristPoints, leftElbowPoints,
       makeNoiseForFarWrist = false;
     }
   }
-  else if (!(leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 13)) {
+  else if (!(leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 18 
+    && leftElbowPoints.y < leftShoulderPoints.y)) {
     makeNoiseForFarWrist = true;
   }
 }
 
 
-function validateWristPosition(angleDeg, distanceElbowShoulder) {
+function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints) {
 
-  if (angleDeg < 50 && distanceElbowShoulder < 7) {
+  console.log(angleDeg);
+  if (angleDeg < 60 && distanceElbowShoulder < 7 && leftElbowPoints.y < leftShoulderPoints.y && angleDeg > 20) {
     if (makeNoiseForWristStraight) {
       if(!muteInstructions){
         speechObj.speak('Wrist straight');
@@ -62,15 +56,15 @@ function validateWristPosition(angleDeg, distanceElbowShoulder) {
       makeNoiseForWristStraight = false;
     }
   }
-  else if (!(angleDeg < 50 && distanceElbowShoulder < 7)) {
+  else if (!(angleDeg < 60 && distanceElbowShoulder < 7 && leftElbowPoints.y < leftShoulderPoints.y && angleDeg > 20)) {
     makeNoiseForWristStraight = true;
   }
 }
 
 
-function validateElbowPosition(angleDeg, distanceElbowShoulder) {
+function validateElbowPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints) {
 
-  if (angleDeg < 75 && distanceElbowShoulder > 13) {
+  if ((angleDeg < 75 && angleDeg > 50) && distanceElbowShoulder > 13 && leftElbowPoints.y > leftShoulderPoints.y ) {
     if (makeNoiseForElbowUp) {
       if(!muteInstructions){
         speechObj.speak('Elbow Up');
@@ -78,7 +72,7 @@ function validateElbowPosition(angleDeg, distanceElbowShoulder) {
       makeNoiseForElbowUp = false;
     }
   }
-  else if (!(angleDeg < 75 && distanceElbowShoulder > 13)) {
+  else if (!((angleDeg < 75 && angleDeg > 50) && distanceElbowShoulder > 13 && leftElbowPoints.y > leftShoulderPoints.y)) {
     makeNoiseForElbowUp = true;
   }
 }
