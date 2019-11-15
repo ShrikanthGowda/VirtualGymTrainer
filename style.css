@@ -27,6 +27,7 @@ video,canvas{
 }
 video{
     object-fit: cover;
+    transform: scaleX(-1);
 }
 .ml-pane .status{
     position: absolute;
