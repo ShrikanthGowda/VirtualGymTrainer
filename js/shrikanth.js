@@ -18,7 +18,7 @@ function handPositionValidations() {
 
     let angleDeg = find_angle(leftShoulderPoints, leftWristPoints, leftElbowPoints);
     let distanceElbowShoulder = leftElbowPoints.y - leftShoulderPoints.y;
-     //validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints);
+    //validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints);
     //validateElbowPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints);
   }
 
@@ -29,16 +29,16 @@ function validateWristShoulderPosition(leftWristPoints, leftElbowPoints, leftSho
 
   let distanceLeftWristElbow = leftWristPoints.x - leftElbowPoints.x;
 
-  if (leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 13 
+  if (leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 13
     && leftElbowPoints.y < leftShoulderPoints.y) {
     if (makeNoiseForFarWrist) {
-      if(!muteInstructions){
+      if (!muteInstructions) {
         speechObj.speak('wrist is far from shoulder');
       }
       makeNoiseForFarWrist = false;
     }
   }
-  else if (!(leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 18 
+  else if (!(leftWristPoints.x > leftElbowPoints.x && distanceLeftWristElbow > 18
     && leftElbowPoints.y < leftShoulderPoints.y)) {
     makeNoiseForFarWrist = true;
   }
@@ -50,7 +50,7 @@ function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints,
   console.log(angleDeg);
   if (angleDeg < 60 && distanceElbowShoulder < 7 && leftElbowPoints.y < leftShoulderPoints.y && angleDeg > 20) {
     if (makeNoiseForWristStraight) {
-      if(!muteInstructions){
+      if (!muteInstructions) {
         speechObj.speak('Wrist straight');
       }
       makeNoiseForWristStraight = false;
@@ -64,9 +64,9 @@ function validateWristPosition(angleDeg, distanceElbowShoulder, leftElbowPoints,
 
 function validateElbowPosition(angleDeg, distanceElbowShoulder, leftElbowPoints, leftShoulderPoints) {
 
-  if ((angleDeg < 75 && angleDeg > 50) && distanceElbowShoulder > 13 && leftElbowPoints.y > leftShoulderPoints.y ) {
+  if ((angleDeg < 75 && angleDeg > 50) && distanceElbowShoulder > 13 && leftElbowPoints.y > leftShoulderPoints.y) {
     if (makeNoiseForElbowUp) {
-      if(!muteInstructions){
+      if (!muteInstructions) {
         speechObj.speak('Elbow Up');
       }
       makeNoiseForElbowUp = false;

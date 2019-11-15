@@ -1,27 +1,10 @@
 let canvas, capture, speechObj, poseNet;
-let debug = true;
-let printPose = false;
 let points = {};
-let __fghtyui = [
-    LEFTSHOULDER,
-    RIGHTSHOULDER,
-    LEFTELBOW,
-    RIGHTELBOW,
-    LEFTWRIST,
-    LEFTHIP,
-    RIGHTWRIST,
-    RIGHTHIP,
-    LEFTKNEE,
-    RIGHTKNEE,
-    LEFTANKLE,
-    RIGHTANKLE
-];
 let doWork = false;
 const handlerInProgress = {};
-let drawSkeleton = false;
+let frameSize = 300
 
-
-
+const mlPaneElement = document.getElementById('ml-pane');
 const statusIndicator = document.getElementById('status');
 const muteIndicator = document.getElementById('muteToggle');
 
@@ -70,12 +53,13 @@ document.addEventListener('keypress', async e => {
 
 
 function setup() {
+    const mlPaneRect = mlPaneElement.getBoundingClientRect();
     speechObj = new p5.Speech();
-    canvas = createCanvas(1200, 900);
+    canvas = createCanvas(mlPaneRect.width, mlPaneRect.height);
     canvas.parent('ml-pane');
     const options = { video: { maxFrameRate: 5 } }
     capture = createCapture(options);
-    capture.size(1200, 900)
+    capture.size(mlPaneRect.width, mlPaneRect.height)
     capture.parent('ml-pane');
     poseNet = ml5.poseNet(capture, { flipHorizontal: false, detectionType: 'single' });
     poseNet.on('pose', analysePoses);
@@ -86,15 +70,18 @@ function setup() {
     speechOutputObj.start(continuous, interimResults);
 }
 
+function windowResized() {
+    const mlPaneRect = mlPaneElement.getBoundingClientRect();
+    resizeCanvas(mlPaneRect.width, mlPaneRect.height);
+    capture.size(mlPaneRect.width, mlPaneRect.height);
+}
+
 
 function analysePoses(poses) {
     if (poses.length > 0) {
-        if (printPose) {
-            console.log(poses);
-            printPose = false;
-        }
         const { keypoints, score, ...positions } = poses[0].pose;
         points = positions;
+        window.ls = points[LEFTSHOULDER]
         if (doWork) {
             countReps();
             checkIfLegStanceIsLess();
@@ -103,61 +90,7 @@ function analysePoses(poses) {
         }
     }
 }
-
-function draw() {
-    canvas.clear();
-    if (!debug) {
-        return;
-    }
-    __drawMarkPositions();
-    __drawSkeleton();
-}
-
-function __drawMarkPositions() {
-    fill(255, 0, 0);
-    textSize(32);
-    __fghtyui.forEach(p => {
-        if (points[p]) {
-            const confidence = points[p].confidence + '';
-            const textStr = p + confidence.substr(0, 5);
-            text(textStr, points[p].x, points[p].y);
-        }
-    });
-}
-
-function mark(part) {
-    __fghtyui.push(part);
-}
-function clearMarks() {
-    __fghtyui = [];
-}
-function __drawSkeleton() {
-    if (!drawSkeleton) {
-        return;
-    }
-    strokeWeight(2);
-    stroke(255, 0, 0);
-    drawLine(LEFTEYE, RIGHTEYE);
-    drawLine(LEFTEYE, NOSE);
-    drawLine(RIGHTEYE, NOSE);
-
-    drawLine(LEFTSHOULDER, RIGHTSHOULDER);
-
-    drawLine(LEFTSHOULDER, LEFTELBOW);
-    drawLine(LEFTELBOW, LEFTWRIST);
-
-    drawLine(RIGHTSHOULDER, RIGHTELBOW);
-    drawLine(RIGHTELBOW, RIGHTWRIST);
-
-    drawLine(LEFTHIP, RIGHTHIP);
-
-    drawLine(LEFTHIP, LEFTSHOULDER);
-    drawLine(RIGHTSHOULDER, RIGHTHIP);
-}
-function drawLine(parta, partb) {
-    const partAPoint = points[parta];
-    const partBPoint = points[partb];
-    if (partAPoint.confidence >= 0.5 && partBPoint.confidence >= 0.5) {
-        line(points[parta].x, points[parta].y, points[partb].x, points[partb].y);
-    }
+const countTextContainer = document.getElementById('countText');
+function updateCount(repCount) {
+    countTextContainer.innerText = repCount;
 }
