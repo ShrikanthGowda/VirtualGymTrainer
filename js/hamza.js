@@ -22,6 +22,7 @@ function countReps() {
                 count += 1
                 counted = true
                 speak(count)
+                updateCount(count)
                 //console.log(count)
             }
         }
@@ -35,37 +36,6 @@ function countReps() {
     }
 }
 
-function countReps3() {
-    // console.log("inside")
-    // angle = find_angle(points["leftWrist"], points["leftShoulder"], points["leftElbow"]);
-    // console.log(angle)
-    // if ((angle > 130)
-    //     && (points["leftWrist"].y < points["leftElbow"].y)
-    //     && (counted == false)
-    //     && (!(points["leftWrist"].x > points["leftElbow"].x))) {
-    //     if (points["leftElbow"].confidence > 0.5 && points["leftShoulder"].confidence > 0.5 && points["leftWrist"].confidence > 0.3) {
-    //         count += 1
-    //         counted = true
-    //         speak(count)
-    //         //console.log(count)
-    //     }
-    // }
-    // if (angle < 130 && (points["leftWrist"].y < points["leftElbow"].y)) {
-    //     counted = false
-    // }
-
-    if (points["leftElbow"].y < points["nose"].y && counted == false && points["leftElbow"].confidence > 0.5 && points["nose"].confidence > 0.5){
-        count += 1
-        counted = true
-        if(count%2 == 0){
-            speak(count/2)
-        }
-    }
-    if (points["leftElbow"].y > points["nose"].y){
-        counted = false;
-    }
-    // return count
-}
 function countReps2() {
     // console.log("inside")
     angle = find_angle(points["leftElbow"],points["leftHip"], points["leftShoulder"], );
@@ -111,6 +81,8 @@ function checkIfLegStanceIsLess() {
         spokenLSL = true
         if (!muteInstructions) {
             speak("Increase leg stance")
+            showError(820, "Increase your leg stance.")
+
         }
     }
     if (legStance >= 1.1 * shoulderWidth) {
@@ -142,7 +114,8 @@ function checkIfLegStanceIsMore() {
         ) {
         spokenLSM = true
         if (!muteInstructions) {
-            speak("Decrease your leg stance")
+            speak("Decrease your leg stance");
+            showError(810, "Decrease your leg stance.")
         }
     }
     if (legStance <= 1.35 * shoulderWidth) {
@@ -176,7 +149,8 @@ function checkElbowBelowShoulder(){
         //   console.log(angle)
         if(!muteInstructions){
       speak("Lift your elbow up");
-      
+      showError(830, "Lift your elbow up.")
+
       spokenElbowUP = true
         }
     }
