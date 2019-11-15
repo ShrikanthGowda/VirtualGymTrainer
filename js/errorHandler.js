@@ -2,7 +2,7 @@ const errorTexts = {
 
 }
 const stayTime = 3000;
-const errorContainer = document.getElementById('rightSidebar');
+const errorContainer = document.getElementById('errorTextContainer');
 function showError(code, message) {
     const prvError = errorTexts[code];
     if (prvError) {
