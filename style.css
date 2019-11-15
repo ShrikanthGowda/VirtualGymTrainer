@@ -3,8 +3,11 @@
     padding: 0;
     box-sizing: border-box;
   }
+  body{
+      position: relative;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
 .container{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     height: calc(100vh);
@@ -50,24 +53,35 @@ video{
     right: 9px;
     top: 59px;
 }
+.leftSidebar .title{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 400;
+    margin-top: 2rem;
+    color: #444;
+    text-transform: uppercase;
+    line-height: 86px;
+}
 .countText{
     position: absolute;
-    top: 40%;
+    top: 46%;
     width: 100%;
-    height: 50%;
+    height: 150px;
     transform: translate(0, -50%);
     text-align: center;
+    overflow: hidden;
 }
 .countText h1{
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 9rem;
+    font-size: 12rem;
     transform: translate(-50%,-50%);
-    font-weight: 100;
+    font-weight: 350;
 }
 .rightSidebar{
     display: flex;
+    flex-direction: column;
 }
 .errorTextContainer{
     padding: 3rem 1.5rem;
@@ -81,12 +95,60 @@ video{
     padding: 0 0 0 20px;
 }
 .timerContainer{
-    position: absolute;
-    height: 150px;
+    height: 160px;
     width: 100%;
-    bottom: 0;
-    font-weight: 300;
+    bottom: 115px;
+    font-weight: 350;
     font-size: 5rem;
-    line-height: 150px;
+    line-height: 75px;
+    text-align: center;
+}
+.timeText{
+    margin-left:1.5rem;
+    font-size: 1.5rem;
+}
+.imgContainer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+.imgContainer img{
+    max-width: 80%;
+    max-height: 100%;
+}
+
+/* Pop up */
+.summaryReport{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    display: none;
+    
+}
+.summaryReport .backdrop{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: 0.8;
+    z-index: 99;
+}
+.summaryBody{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: 400px;
+    width: 600px;
+    background: #fff;
+    border-radius: 5px;
+    z-index: 100;
+    padding: 10px;
     text-align: center;
 }
